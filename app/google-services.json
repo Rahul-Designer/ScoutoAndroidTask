@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "896038765082-salqnlv8nk00o0hc6pp4tde3m4obr4mb.apps.googleusercontent.com",
+          "client_id": "896038765082-hnc0v159t10a81kqahifu3i746gtjmp1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.scoutoandroidtask",
+            "certificate_hash": "27502c1daf0102850a827370543a399bd1934a6e"
+          }
+        },
+        {
+          "client_id": "896038765082-mnihooshb0gp17096bvsq8qpfv470ipa.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -27,7 +35,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "896038765082-salqnlv8nk00o0hc6pp4tde3m4obr4mb.apps.googleusercontent.com",
+              "client_id": "896038765082-mnihooshb0gp17096bvsq8qpfv470ipa.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
