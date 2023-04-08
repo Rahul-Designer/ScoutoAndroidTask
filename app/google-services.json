@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "896038765082",
+    "project_id": "scoutoandroidtask",
+    "storage_bucket": "scoutoandroidtask.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:896038765082:android:1718ff15222dd449ce07a3",
+        "android_client_info": {
+          "package_name": "com.example.scoutoandroidtask"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "896038765082-salqnlv8nk00o0hc6pp4tde3m4obr4mb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUPCuBVpQ8F4t7eoJLyZxfhkHDAU4wsds"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "896038765082-salqnlv8nk00o0hc6pp4tde3m4obr4mb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
