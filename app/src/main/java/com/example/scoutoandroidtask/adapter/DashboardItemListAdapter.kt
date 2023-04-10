@@ -9,13 +9,19 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.scoutoandroidtask.R
+import com.example.scoutoandroidtask.data.Car
 import com.example.scoutoandroidtask.model.DashboardListview
 
-class DashboardItemListAdapter(var context: Context,private var arrCar :ArrayList<DashboardListview>,private val onItemClickListener: OnItemClickListener) :
+class DashboardItemListAdapter(
+    var context: Context,
+    private var arrCar: ArrayList<DashboardListview>,
+    private val onItemClickListener: OnItemClickListener
+) :
     RecyclerView.Adapter<DashboardItemListAdapter.ViewHolder>() {
 
 
-    class ViewHolder(itemView: View, onItemClickListener: OnItemClickListener) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View, onItemClickListener: OnItemClickListener) :
+        RecyclerView.ViewHolder(itemView) {
         var makerCar: TextView
         var modeCar: TextView
         var imageCar: ImageView
@@ -41,7 +47,8 @@ class DashboardItemListAdapter(var context: Context,private var arrCar :ArrayLis
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            LayoutInflater.from(context).inflate(R.layout.car_item_layout, parent, false),onItemClickListener
+            LayoutInflater.from(context).inflate(R.layout.car_item_layout, parent, false),
+            onItemClickListener
         )
     }
 
@@ -59,16 +66,9 @@ class DashboardItemListAdapter(var context: Context,private var arrCar :ArrayLis
             onItemClickListener.addImage(position)
         }
     }
+    interface OnItemClickListener {
+        fun deleteItem(position: Int)
+        fun addImage(position: Int)
 
-
-    //    fun updateDataList(make_name: String, model_name: String) {
-//        arrCar.clear()
-//        arrCar.addAll(DashboardListview(make_name, model_name))
-//        notifyDataSetChanged()
-//    }
-interface OnItemClickListener {
-    fun deleteItem(position: Int)
-    fun addImage(position: Int)
-
-}
+    }
 }

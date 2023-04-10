@@ -1,9 +1,12 @@
 package com.example.scoutoandroidtask
 
 import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
@@ -53,6 +56,11 @@ class SignInActivity : AppCompatActivity() {
                         val editor = pref.edit()
                         editor.putBoolean("flag", true)
                         editor.apply()
+//                        Handler().postDelayed({
+//                            val progressDialog = ProgressDialog(this@SignInActivity)
+//                            progressDialog.setMessage("Application is loading, please wait")
+//                            progressDialog.show()
+//                        }, 2000)
                         startActivity(Intent(this, DashboardActivity::class.java))
                         finish()
                     } else {
@@ -111,6 +119,12 @@ class SignInActivity : AppCompatActivity() {
                 val editor = pref.edit()
                 editor.putBoolean("flag", true)
                 editor.apply()
+//                Handler().postDelayed({
+//                    val progressDialog = ProgressDialog(this@SignInActivity)
+//                    progressDialog.setMessage("Application is loading, please wait")
+//                    progressDialog.show()
+//                }, 2000)
+
                 startActivity(Intent(this, DashboardActivity::class.java))
                 finish()
             } else {

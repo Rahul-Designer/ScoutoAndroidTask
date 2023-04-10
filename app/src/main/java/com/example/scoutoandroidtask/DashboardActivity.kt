@@ -1,10 +1,12 @@
 package com.example.scoutoandroidtask
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.provider.MediaStore
 import android.view.View
 import android.widget.AdapterView
@@ -17,6 +19,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.scoutoandroidtask.adapter.DashboardItemListAdapter
 import com.example.scoutoandroidtask.api.JsonService
 import com.example.scoutoandroidtask.api.RetrofitHelper
+import com.example.scoutoandroidtask.data.Car
+import com.example.scoutoandroidtask.data.CarDatabase
 import com.example.scoutoandroidtask.databinding.ActivityDashboardBinding
 import com.example.scoutoandroidtask.model.DashboardListview
 import com.example.scoutoandroidtask.model.MakerList
@@ -33,6 +37,7 @@ class DashboardActivity : AppCompatActivity(), DashboardItemListAdapter.OnItemCl
     lateinit var firebaseAuth: FirebaseAuth
     private lateinit var binding: ActivityDashboardBinding
     private lateinit var dashboardViewModel: DashboardViewModel
+    lateinit var database: CarDatabase
     var arrMakerList = ArrayList<MakerList>()
     var arrSpinnerOne = ArrayList<String>()
     var arrMakerId = ArrayList<Int>()
@@ -55,6 +60,7 @@ class DashboardActivity : AppCompatActivity(), DashboardItemListAdapter.OnItemCl
             finish()
         }
 
+        database = CarDatabase.getDatabase(this)
         arrMakerList.add(MakerList(0, "Select Make"))
         arrSpinnerOne.add("Select Make")
         arrMakerId.add(0)
@@ -68,7 +74,12 @@ class DashboardActivity : AppCompatActivity(), DashboardItemListAdapter.OnItemCl
             DashboardViewModelFactory(repository)
         ).get(DashboardViewModel::class.java)
 
+        val progressDialog = ProgressDialog(this@DashboardActivity)
+        progressDialog.setTitle("Please Wait..")
+        progressDialog.setMessage("Application is loading, please wait")
+        progressDialog.show()
         dashboardViewModel.makers.observe(this, Observer {
+            progressDialog.dismiss()
             updateArray(it.Results)
         })
 
@@ -108,6 +119,10 @@ class DashboardActivity : AppCompatActivity(), DashboardItemListAdapter.OnItemCl
 
     private fun getModelDetails(pos: Int, arrMakerId: ArrayList<Int>, s: String) {
         val modelApi = RetrofitHelper.getInstance().create(JsonService::class.java)
+        val progressDialog = ProgressDialog(this@DashboardActivity)
+        progressDialog.setTitle("Please Wait..")
+        progressDialog.setMessage("Application is loading, please wait")
+        progressDialog.show()
         GlobalScope.launch(Dispatchers.Main) {
             val arrSpinnerTwo = ArrayList<String>()
             arrSpinnerTwo.add("Select Model")
@@ -127,6 +142,7 @@ class DashboardActivity : AppCompatActivity(), DashboardItemListAdapter.OnItemCl
                 android.R.layout.simple_spinner_item,
                 arrSpinnerTwo
             )
+            progressDialog.dismiss()
             adapter.setDropDownViewResource(android.R.layout.simple_list_item_1)
             binding.modelSpinner.adapter = adapter
 
@@ -140,6 +156,7 @@ class DashboardActivity : AppCompatActivity(), DashboardItemListAdapter.OnItemCl
                     id: Long
                 ) {
                     getdetails(s, arrSpinnerTwo[position])
+
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -153,9 +170,12 @@ class DashboardActivity : AppCompatActivity(), DashboardItemListAdapter.OnItemCl
     }
 
     private fun getdetails(s: String, s1: String) {
-        var bitmap : Bitmap = BitmapFactory.decodeResource(resources,R.drawable.default_car)
+        var bitmap: Bitmap = BitmapFactory.decodeResource(resources, R.drawable.default_car)
         binding.addCar.setOnClickListener {
             arrCar.add(DashboardListview(bitmap, s, s1))
+            GlobalScope.launch {
+                database.carDao().insertCar(Car(null, s, s1))
+            }
             binding.carRecyclerview.layoutManager = LinearLayoutManager(this)
             adapter = DashboardItemListAdapter(this, arrCar, this)
             binding.carRecyclerview.adapter = adapter
@@ -182,7 +202,7 @@ class DashboardActivity : AppCompatActivity(), DashboardItemListAdapter.OnItemCl
         if (requestCode == IMAGE_REQUEST_CODE && resultCode == RESULT_OK) {
             val imageUri: Uri? = data!!.data
             val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, imageUri)
-            arrCar[imagePos].Car_Image  = bitmap
+            arrCar[imagePos].Car_Image = bitmap
             adapter.notifyItemChanged(imagePos)
         }
     }
